@@ -1,0 +1,58 @@
+with "crazyflie_support/crazyflie_support";
+
+project Cf_Ada_SPARK is
+
+   type SENSOR_FUSION_TYPE is ("Mahony", "Madgwick");
+   SensorFusion : SENSOR_FUSION_TYPE := external ("SENSOR_FUSION", "Mahony");
+
+   type BUILD_TYPE is
+      ("Debug", "Production");
+   Build : BUILD_Type := external ("BUILD", "Debug");
+
+   for Languages use ("Ada");
+   for Main use ("main.adb");
+   for Source_Dirs use ("src");
+
+   case SensorFusion is
+      when "Mahony" =>
+         for Source_Dirs use Project'Source_Dirs & ("src/mahony");
+      when "Madgwick" =>
+         for Source_Dirs use Project'Source_Dirs & ("src/madgwick");
+   end case;
+
+   for Object_Dir use "obj";
+   for Exec_Dir use "obj";
+   for Create_Missing_Dirs use "True";
+
+   --  Export run-times's variables
+   for Target use "arm-eabi";
+   for Runtime ("Ada") use Crazyflie_Support'Runtime ("Ada");
+
+   package Compiler is
+      case Build is
+         when "Debug" =>
+            for Default_Switches ("ada") use
+              ("-gnatQ", "-gnatyg", "-O0", "-gnata", "-gnatwae", "-g");
+         when "Production" =>
+            for Default_Switches ("ada") use
+              ("-gnatQ", "-gnatyg", "-O2", "-gnatn");
+      end case;
+   end Compiler;
+
+   package Builder is
+      for Global_Configuration_Pragmas use "gnat.adc";
+      for Executable ("main.adb") use "cflie.elf";
+      for Default_Switches ("Ada") use ("-s");
+   end Builder;
+
+   package Ide is
+      for Program_Host use "localhost:4242";
+      for Communication_Protocol use "remote";
+      for Connection_Tool use "st-util";
+
+      for Debugger_Command use "arm-eabi-gdb";
+      for Gnatlist use "arm-eabi-gnatls";
+      for Gnat use "arm-eabi-gnat";
+   end Ide;
+
+end Cf_Ada_SPARK;
