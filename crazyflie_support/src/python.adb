@@ -306,7 +306,7 @@ package body Python is
          end if;
          
          Py_DecRef (PyArgs);
-         Py_DecRef (PyCfid);
+         --Py_DecRef (PyCfid);
          Py_DecRef (PyResult);
          
       end Call_Receive_Packet_Data;
@@ -356,7 +356,7 @@ package body Python is
 
          Py_DecRef (PyCfid);
          Py_DecRef (PyMsg);
-         Py_DecRef (Item);
+         --Py_DecRef (Item);
          Py_DecRef (PyArgs);
          Py_DecRef (PyResult);
 
