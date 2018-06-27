@@ -34,10 +34,9 @@ package Config is
    QUAD_FORMATION_X : constant Boolean := True;
 
    --  Task priorities
-   MAIN_TASK_PRIORITY      : constant System.Priority := 4;
    CRTP_RXTX_TASK_PRIORITY : constant System.Priority := 2;
    SYSLINK_TASK_PRIORITY   : constant System.Priority := 3;
-   LOG_TASK_PRIORITY       : constant System.Priority := 1;
    PM_TASK_PRIORITY        : constant System.Priority := 0;
+
 
 end Config;

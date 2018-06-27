@@ -9,8 +9,6 @@ with Ada.Numerics.Elementary_Functions; use Ada.Numerics.Elementary_Functions;
 with Ada.Real_Time;                     use Ada.Real_Time;
 with Ada.Unchecked_Conversion;
 
-with Log;               use Log;
-with Parameter;         use Parameter;
 with STM32.SPI.DECK;    use STM32.SPI.DECK;
 with STM32.I2C;         use STM32.I2C;
 with STM32.Board;       use STM32.Board;
@@ -494,122 +492,6 @@ package body Flow_Deck is
       end if;
 
    end PaMotion_Task;
-
-
-
-   ----------------------------------------------------------------------------
-   --  Should Motion_Burst be a record of aliased elements to make sure they
-   --  have an address ?
-   --  Not tested yet
-
-   -------------------------
-   --  Add_Motion_To_LOG  --
-   -------------------------
-   function Add_Motion_To_LOG return Boolean is
-      Has_Succeed   : Boolean;
-      Success       : Boolean;
-      Motion_Log_ID : Natural;
-   begin
-      if not Log_Test then
-         return False;
-      end if;
-
-      Create_Log_Group ("Motion", Motion_Log_ID, Has_Succeed);
-
-      if Has_Succeed then
-         Append_Log_Variable_To_Group (Motion_Log_ID,
-                                       "Motion",
-                                       LOG_UINT8,
-                                       Current_Motion.Motion'Address,
-                                       Has_Succeed);
-         Success := Has_Succeed;
-
-         Append_Log_Variable_To_Group (Motion_Log_ID,
-                                       "Delta_X",
-                                       LOG_UINT16,
-                                       Current_Motion.Delta_X_2'Address,
-                                       Has_Succeed);
-         Success := Success and Has_Succeed;
-
-         Append_Log_Variable_To_Group (Motion_Log_ID,
-                                       "Delta_Y",
-                                       LOG_UINT16,
-                                       Current_Motion.Delta_Y_2'Address,
-                                       Has_Succeed);
-         Success := Success and Has_Succeed;
-
-         Append_Log_Variable_To_Group (Motion_Log_ID,
-                                       "Shutter",
-                                       LOG_UINT16,
-                                       Current_Motion.Shutter_2'Address,
-                                       Has_Succeed);
-         Success := Success and Has_Succeed;
-
-         Append_Log_Variable_To_Group (Motion_Log_ID,
-                                       "Max_Raw",
-                                       LOG_UINT8,
-                                       Current_Motion.Max_Raw_Data_2'Address,
-                                       Has_Succeed);
-         Success := Success and Has_Succeed;
-
-         Append_Log_Variable_To_Group (Motion_Log_ID,
-                                       "Min_Raw",
-                                       LOG_UINT8,
-                                       Current_Motion.Min_Raw_Data_2'Address,
-                                       Has_Succeed);
-         Success := Success and Has_Succeed;
-
-         Append_Log_Variable_To_Group (Motion_Log_ID,
-                                       "Raw_Sum",
-                                       LOG_UINT8,
-                                       Current_Motion.Raw_Data_Sum_2'Address,
-                                       Has_Succeed);
-         Success := Success and Has_Succeed;
-
-         Append_Log_Variable_To_Group (Motion_Log_ID,
-                                       "Outlier_Count",
-                                       LOG_UINT8,
-                                       Outlier_Count'Address,
-                                       Has_Succeed);
-         Success := Success and Has_Succeed;
-
-         return Success;
-      else
-         return False;
-      end if;
-   end Add_Motion_To_LOG;
-
-
-   -------------------------------
-   --  Add_Motion_To_Parameter  --
-   -------------------------------
-   function Add_Motion_To_Parameter return Boolean is
-       Has_Succeed     : Boolean;
-       Flow_Param_Type : Parameter_Variable_Type;
-       Motion_Param_ID : Natural;
-   begin
-      if not Parameter_Test then
-         return False;
-      end if;
-
-      Flow_Param_Type.Size      := One_Byte;
-      Flow_Param_Type.Floating  := False;
-      Flow_Param_Type.Signed    := False;
-      Flow_Param_Type.Read_Only := False;
-
-      Create_Parameter_Group ("Motion", Motion_Param_ID, Has_Succeed);
-
-      if Has_Succeed then
-         Append_Parameter_Variable_To_Group (Motion_Param_ID,
-                                             "Disable_Flow",
-                                             Flow_Param_Type,
-                                             Use_Flow_Disabled'Address,
-                                             Has_Succeed);
-         return Has_Succeed;
-      else
-         return False;
-      end if;
-   end Add_Motion_To_Parameter;
 
 
 end Flow_Deck;

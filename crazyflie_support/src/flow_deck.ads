@@ -138,10 +138,6 @@ package Flow_Deck is
 
    procedure Z_Ranger_Task (TOF_Data : access TOF_Measurement);
    procedure PaMotion_Task (Flow_Data : access Flow_Measurement);   
-
-   function Add_Motion_To_LOG return Boolean;
-
-   function Add_Motion_To_Parameter return Boolean;
    
 
 private

@@ -29,8 +29,6 @@
 
 with Ada.Unchecked_Conversion;
 
-with Log;
-
 package body Power_Management
 with Refined_State => (Power_Management_State => (Current_Power_Info,
                                                   Current_Power_State,
@@ -47,21 +45,6 @@ is
    procedure Power_Management_Init is
    begin
       Current_Power_State := Battery;
-
-      declare
-         Dummy : Boolean;
-      begin
-         Log.Add_Log_Variable (Group    => "pm",
-                               Name     => "vbat",
-                               Log_Type => Log.LOG_FLOAT,
-                               Variable => Battery_Voltage'Address,
-                               Success  => Dummy);
-         Log.Add_Log_Variable (Group    => "pm",
-                               Name     => "state",
-                               Log_Type => Log.LOG_INT8,
-                               Variable => Current_Power_State'Address,
-                               Success  => Dummy);
-      end;
    end Power_Management_Init;
 
    ------------------------------------------
