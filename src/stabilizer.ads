@@ -165,6 +165,15 @@ is
                              Desired_Rates,
                              Rate_PIDs));
 
+   --  Set the desired TRPY.
+   procedure Comm
+     (Thrust: in T_Uint16;
+      Roll: in Float;
+      Pitch: in Float;
+      Yaw: in Float)
+     with
+       Global => (Output => Actuator_Commands);
+
 private
 
    --  Global variables and constants

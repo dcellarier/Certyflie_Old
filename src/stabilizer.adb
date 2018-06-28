@@ -380,9 +380,9 @@ is
       FF_Check_Event (Acc);
 
       --  Get commands from the pilot
-      Commander_Get_RPY (Euler_Roll_Desired,
-                         Euler_Pitch_Desired,
-                         Euler_Yaw_Desired);
+      --Commander_Get_RPY (Euler_Roll_Desired,
+      --                   Euler_Pitch_Desired,
+      --                   Euler_Yaw_Desired);
 
       Commander_Get_RPY_Type (Roll_Type, Pitch_Type, Yaw_Type);
 
@@ -416,7 +416,7 @@ is
       if not Alt_Hold or not IMU_Has_Barometer then
          --  Get thrust from the commander if alt hold mode
          --  not activated
-         Commander_Get_Thrust (Actuator_Thrust);
+         --Commander_Get_Thrust (Actuator_Thrust);
          --  Override the thrust if the drone is in freefall
          FF_Get_Recovery_Thrust (Actuator_Thrust);
       else
@@ -438,5 +438,22 @@ is
          Controller_Reset_All_Pid;
       end if;
    end Stabilizer_Control_Loop;
+
+   ----------
+   -- Comm --
+   ----------
+
+   procedure Comm
+     (Thrust: in T_Uint16;
+      Roll: in Float;
+      Pitch: in Float;
+      Yaw: in Float)
+   is
+   begin
+      Actuator_Thrust := Thrust;
+      Euler_Roll_Desired := Roll;
+      Euler_Pitch_Desired := Pitch;
+      Euler_Yaw_Desired := Yaw;
+   end Comm;
 
 end Stabilizer;
