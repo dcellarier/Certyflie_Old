@@ -136,8 +136,8 @@ package Flow_Deck is
    function PaMotion_Test return Boolean;
    function Flow_Deck_Test return Boolean;  
 
-   procedure Z_Ranger_Task (TOF_Data : access TOF_Measurement);
-   procedure PaMotion_Task (Flow_Data : access Flow_Measurement);   
+   procedure Z_Ranger_Task (TOF_Data : in out TOF_Measurement);
+   procedure PaMotion_Task (Flow_Data : in out Flow_Measurement);   
    
 
 private
@@ -148,13 +148,13 @@ private
    Is_Init          : Boolean := False;
    Outlier_Count    : T_Uint8 := 0;
    --  Global variable used to read motion
-   Current_Motion   : access Motion_Burst := new Motion_Burst;
+   Current_Motion   : Motion_Burst;
 
 
    --  procedures and functions
    procedure Register_Write (Reg : T_Uint8; Value : T_Uint8);
    function Register_Read (Reg : T_Uint8) return T_Uint8;
-   procedure Read_Motion (Motion : access Motion_Burst);
+   procedure Read_Motion (Motion : in out Motion_Burst);
    
 
 end Flow_Deck;

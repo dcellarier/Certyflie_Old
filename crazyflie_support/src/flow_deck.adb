@@ -125,7 +125,7 @@ package body Flow_Deck is
    -------------------
    --  Read_motion  --
    -------------------
-   procedure Read_Motion (Motion : access Motion_Burst) is
+   procedure Read_Motion (Motion : in out Motion_Burst) is
       MB_Address   : constant T_Uint8 := 16#16#;
       Data_Tx      : SPI_DMA_Data;
       Data_Rx      : SPI_DMA_Data;
@@ -391,7 +391,7 @@ package body Flow_Deck is
    ---------------------
    --  Z_Ranger_Task  --
    ---------------------
-   procedure Z_Ranger_Task (TOF_Data : access TOF_Measurement) is
+   procedure Z_Ranger_Task (TOF_Data : in out TOF_Measurement) is
       --  Start  : Time;
       --  Budget : Integer;
    begin
@@ -428,7 +428,7 @@ package body Flow_Deck is
    ---------------------
    --  PaMotion_Task  --
    ---------------------
-   procedure PaMotion_Task (Flow_Data : access Flow_Measurement) is
+   procedure PaMotion_Task (Flow_Data : in out Flow_Measurement) is
       AccpX : T_Int16;
       AccpY : T_Int16;
    begin
