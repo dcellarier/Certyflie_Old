@@ -29,7 +29,6 @@
 
 with Ada.Real_Time;           use Ada.Real_Time;
 
-with Commander;               use Commander;
 with IMU;                     use IMU;
 with Interfaces.C;            use Interfaces.C;
 with Interfaces.C.Extensions; use Interfaces.C.Extensions;

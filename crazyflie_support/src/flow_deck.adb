@@ -40,7 +40,7 @@ package body Flow_Deck is
 
    --  Define Z_Ranger device
    Z_Ranger_Device : VL53L0X_Ranging_Sensor (I2C_EXT_Port'Access);
-   Last_Range   : T_Uint16 := 0;
+   Last_Range      : T_Uint16 := 0;
    --  TOF_Data        : access TOF_Measurement := new TOF_Measurement;
    --  Measurement noise model for the Z_Ranger
    exp_Point_A     : constant Float := 1.0;

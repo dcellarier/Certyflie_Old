@@ -42,8 +42,6 @@ package Crazyflie_System is
    --  are working correctly
    function System_Self_Test return Boolean;
 
-   --  Main loop of the system
-   procedure System_Loop;
 
 private
 

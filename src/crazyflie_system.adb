@@ -30,13 +30,11 @@
 with Ada.Real_Time;    use Ada.Real_Time;
 
 with Communication;    use Communication;
-with Commander;        use Commander;
 with IMU;              use IMU;
 with LEDS;             use LEDS;
 with Memory;           use Memory;
 with Motors;           use Motors;
 with Power_Management; use Power_Management;
-with Stabilizer;       use Stabilizer;
 with Types;            use Types;
 
 package body Crazyflie_System is
@@ -67,10 +65,6 @@ package body Crazyflie_System is
       --  Initialize memory module.
       Memory_Init;
 
-      --  Initialize high level modules.
-      Commander_Init;
-      Stabilizer_Init;
-
       Is_Init := True;
    end System_Init;
 
@@ -87,8 +81,6 @@ package body Crazyflie_System is
       Self_Test_Passed := Self_Test_Passed and IMU_Test;
       Self_Test_Passed := Self_Test_Passed and Communication_Test;
       Self_Test_Passed := Self_Test_Passed and Memory_Test;
-      Self_Test_Passed := Self_Test_Passed and Commander_Test;
-      Self_Test_Passed := Self_Test_Passed and Stabilizer_Test;
 
       if Self_Test_Passed then
          Set_System_State (Calibrating);
@@ -106,25 +98,6 @@ package body Crazyflie_System is
       return Self_Test_Passed;
    end System_Self_Test;
 
-   -----------------
-   -- System_Loop --
-   -----------------
-
-   procedure System_Loop is
-      Attitude_Update_Counter : T_Uint32 := 0;
-      Alt_Hold_Update_Counter : T_Uint32 := 0;
-      Next_Period             : Time;
-   begin
-      Next_Period := Clock + IMU_UPDATE_DT_MS;
-
-      loop
-         delay until Next_Period;
-         Stabilizer_Control_Loop (Attitude_Update_Counter,
-                                  Alt_Hold_Update_Counter);
-
-         Next_Period := Next_Period + IMU_UPDATE_DT_MS;
-      end loop;
-   end System_Loop;
 
    -------------------------
    -- Last_Chance_Handler --
